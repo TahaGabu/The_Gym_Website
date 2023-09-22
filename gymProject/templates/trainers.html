@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}
+List Of Trainers
+{% endblock title %}
+
+{% block body %}
+<div style="padding-top :100px; padding-bottom: 50px; padding-left : 100px" > 
+<h1>List Of All Gym Trainers</h1>
+</div>
+{% for i in trainers  %}
+
+
+
+<style>
+    
+  
+    /* Style list items */
+    
+    .listClass {
+    background-color: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+    /* Style member information */
+    .member-info {
+      flex: 1;
+      margin-right: 10px;
+      font-size: large;
+    }
+  
+    /* Style member buttons */
+    .member-buttons {
+      display: flex;
+      align-items: center;
+    }
+  
+    /* Style delete button */
+    .delete-button {
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  
+    /* Style update button */
+    .update-button {
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+  
+    /* Hover styles for buttons */
+    .delete-button:hover {
+      background-color: #c0392b;
+    }
+  
+    .update-button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+  
+  <ul class="listClass">
+    <li>
+      <div class="member-info">
+        <h3>{{i.fname}} {{i.lname}}</h3>
+        <p>Date of Birth: {{i.dob}}</p>
+        <p>Age: {{i.age}}</p>
+        <p>Height: {{i.height}}cm</p>
+        <p>Weight: {{i.weight}}kg</p>
+        <p>Address: {{i.address}}</p>
+        <p>Contact Number: +91 {{i.number}}</p>
+      </div>
+      <div class="member-buttons">
+        <form action="{% url 'deletingTrainer' %}" method="post" onsubmit="return confirm('Are you sure you want to delete this trainer?');">
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{ i.id }}">
+          <button class="delete-button" type="submit">Delete</button>
+        </form>
+        <a href="{% url 'updationTrainer' id=i.id %}">
+          <button class="update-button">Update</button>
+        </a>
+      </div>
+    </li>
+  </ul>
+  
+
+{% endfor %}
+{% endblock body %} 
+
+
+
+  
+
+
+

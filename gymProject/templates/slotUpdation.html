@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}
+Update Page
+{% endblock title %}
+{% block body %}
+
+
+<style>
+    /* Style the form container */
+    .form-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+  
+    /* Style the form labels */
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+  
+    /* Style the form inputs */
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #f5f5f5; /* Grey background color */
+    }
+  
+    /* Style the submit button */
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    /* Style the submit button on hover */
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  
+
+<div class="form-container">
+  <h2 style="padding-top: 20px;">Update Slot</h2>
+  <form action="updatingSlot" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ gym_id }}"><br><br>
+    <label for="id">Id:</label>
+    <input type="text" id="id" name="id" value="{{ slot.id }}" placeholder="{{ slot.id }}" readonly><br><br>
+    <label for="date">Date And Time: </label>
+    <input type="datetime-local" id="date" name="date" value="{{ slot.date|date:'Y-m-d' }}T{{ slot.date|date:'H:i' }}" placeholder="{{ slot.date|date:'Y-m-d' }}T{{ slot.date|date:'H:i' }}"><br><br>
+
+    <label for="member">Members: </label>
+
+    <select id="members" name="members">
+        {% for member in members %}
+        <option value="{{ member.id }}" {% if member.id == selected_member_id %}selected{% endif %}>
+            {{ member.fname }} {{ member.lname }} 
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="trainer">Trainer: </label>
+
+    <select id="trainers" name="trainers">
+        {% for trainer in trainers %}
+        <option value="{{ trainer.id }}" {% if trainer.id == selected_trainer_id %}selected{% endif %}>
+            {{ trainer.fname }} - {{ trainer.lname }}
+        </option>
+        {% endfor %}
+    </select>
+
+
+    <label for="subscription">Choose a Plan: </label>
+
+    <select id="plans" name="plans">
+        {% for plan in plans %}
+        <option value="{{ plan.id }}" {% if plan.id == selected_plan_id %}selected{% endif %}>
+            {{ plan.name }} - {{ plan.amount }} - {{ plan.duration }}
+        </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+
+
+
+
+{% endblock body %}
+
